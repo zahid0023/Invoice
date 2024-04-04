@@ -148,5 +148,65 @@ public class Util {
         return foods;
     }
 
+    public static List<AvailableTransferPackageData> transfer() {
+        List<AvailableTransferPackageData> transferPackageDataList = new ArrayList<>();
+
+        AvailableTransferPackageData data1 = new AvailableTransferPackageData();
+        data1.setAvailableTransferPackageId(1L);
+        data1.setTransferRoute("Route 1");
+        data1.setTransportationModeName("Bus");
+        data1.setTransportationProviderName("ABC Transport");
+        data1.setIsAc(true);
+        data1.setTripType(TripType.ONE_WAY);
+        data1.setUnitPrice(BigDecimal.valueOf(50));
+        data1.setSuitableForPersons(20);
+        transferPackageDataList.add(data1);
+
+        AvailableTransferPackageData data2 = new AvailableTransferPackageData();
+        data2.setAvailableTransferPackageId(2L);
+        data2.setTransferRoute("Route 2");
+        data2.setTransportationModeName("Taxi");
+        data2.setTransportationProviderName("XYZ Cabs");
+        data2.setIsAc(false);
+        data2.setTripType(TripType.ROUND_TRIP);
+        data2.setUnitPrice(BigDecimal.valueOf(100));
+        data2.setSuitableForPersons(4);
+        transferPackageDataList.add(data2);
+
+        AvailableTransferPackageData data3 = new AvailableTransferPackageData();
+        data3.setAvailableTransferPackageId(3L);
+        data3.setTransferRoute("Route 3");
+        data3.setTransportationModeName("Car");
+        data3.setTransportationProviderName("Speedy Rentals");
+        data3.setIsAc(true);
+        data3.setTripType(TripType.ONE_WAY);
+        data3.setUnitPrice(BigDecimal.valueOf(80));
+        data3.setSuitableForPersons(5);
+        transferPackageDataList.add(data3);
+
+        AvailableTransferPackageData data4 = new AvailableTransferPackageData();
+        data4.setAvailableTransferPackageId(4L);
+        data4.setTransferRoute("Route 4");
+        data4.setTransportationModeName("Train");
+        data4.setTransportationProviderName("Railway Corporation");
+        data4.setIsAc(true);
+        data4.setTripType(TripType.ONE_WAY);
+        data4.setUnitPrice(BigDecimal.valueOf(120));
+        data4.setSuitableForPersons(50);
+        transferPackageDataList.add(data4);
+
+        AvailableTransferPackageData data5 = new AvailableTransferPackageData();
+        data5.setAvailableTransferPackageId(5L);
+        data5.setTransferRoute("Route 5");
+        data5.setTransportationModeName("Bus");
+        data5.setTransportationProviderName("City Transit");
+        data5.setIsAc(false);
+        data5.setTripType(TripType.ONE_WAY);
+        data5.setUnitPrice(BigDecimal.valueOf(40));
+        data5.setSuitableForPersons(30);
+        transferPackageDataList.add(data5);
+
+        return transferPackageDataList;
+    }
 
 }

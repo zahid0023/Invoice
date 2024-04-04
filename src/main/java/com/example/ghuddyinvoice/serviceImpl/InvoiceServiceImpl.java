@@ -43,9 +43,9 @@ public class InvoiceServiceImpl implements InvoiceService {
         document.add(getAccommodationTable(new float[]{750}, Util.accommodation()));
         document.add(new AreaBreak());
         document.add(getFoodTable(new float[]{750}, Util.food()));
-        document.add(getTransferTable(new float[]{750}, Util.accommodation()));
+        document.add(getTransferTable(new float[]{750}, Util.transfer()).setMarginTop(20));
         document.add(new AreaBreak());
-        document.add(getTransportationTable(new float[]{750}, Util.accommodation()));
+        document.add(getTransportationTable(new float[]{750}, Util.transfer()));
         document.add(getGuideTable(new float[]{750}, Util.accommodation()));
         document.add(new AreaBreak());
         document.add(getSpotEntryTable(new float[]{750}, Util.accommodation()));
@@ -247,7 +247,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
     }
 
-    private Table getTransferTable(float[] columnWidths, List<AvailableTransferPackageData> availableAccommodationPackageDataList) {
+    private Table getTransferTable(float[] columnWidths, List<AvailableTransferPackageData> availableTransferPackageDataList) {
 
         Table transferTable = new Table(columnWidths).setBorder(Border.NO_BORDER);
         Cell transferTableTitle = titleCell("Transfer");
@@ -255,50 +255,48 @@ public class InvoiceServiceImpl implements InvoiceService {
 
 
         Cell transferTableContent = new Cell().setBorder(Border.NO_BORDER);
-        Table transferContentTable = new Table(new float[]{250, 250, 250});
+        Table transferContentTable = new Table(new float[]{187.5f, 187.5f, 187.5f, 187.5f});
 
         // Add headers
-       addHeaders(transferContentTable,List.of("Route","Trip Type","AC","Description"));
+        addHeaders(transferContentTable, List.of("Route", "Trip Type", "AC", "Description"));
         // Add dynamic rows
-        availableAccommodationPackageDataList.forEach(availableAccommodationPackageData -> {
-            accommodationContentTable.addCell(new Cell().add(availableAccommodationPackageData.getNightNumber().toString()));
-            accommodationContentTable.addCell(new Cell().add(availableAccommodationPackageData.getTourPackageAccommodationName()));
-            accommodationContentTable.addCell(new Cell().add(availableAccommodationPackageData.getRoomDescription()));
+        availableTransferPackageDataList.forEach(availableTransferPackageData -> {
+            transferContentTable.addCell(new Cell().add(availableTransferPackageData.getTransferRoute()));
+            transferContentTable.addCell(new Cell().add(availableTransferPackageData.getTripType().getDisplayName()));
+            transferContentTable.addCell(new Cell().add(availableTransferPackageData.getIsAc() ? "YES" : "NO"));
+            transferContentTable.addCell(new Cell().add(availableTransferPackageData.toDescription()));
         });
 
-        accommodationTableContent.add(accommodationContentTable);
-        accommodationTable.addCell(accommodationTableContent);
+        transferTableContent.add(transferContentTable);
+        transferTable.addCell(transferTableContent);
 
-        return accommodationTable;
+        return transferTable;
     }
 
-    private Table getTransportationTable(float[] columnWidths, List<AvailableAccommodationPackageData> availableAccommodationPackageDataList) {
-        Collections.sort(availableAccommodationPackageDataList, Comparator.comparing(AvailableAccommodationPackageData::getNightNumber));
+    private Table getTransportationTable(float[] columnWidths, List<AvailableTransferPackageData> availableTransportationPackageDataList) {
 
-        Table accommodationTable = new Table(columnWidths).setBorder(Border.NO_BORDER);
-        Cell accommodationTableTitle = new Cell().setBorder(Border.NO_BORDER);
-        accommodationTableTitle.add(new Paragraph("Transportation").setBold().setFontSize(16)).setPaddingBottom(10).setFontColor(Color.BLUE);
-        accommodationTable.addCell(accommodationTableTitle);
+        Table transferTable = new Table(columnWidths).setBorder(Border.NO_BORDER);
+        Cell transferTableTitle = titleCell("Transportation");
+        transferTable.addCell(transferTableTitle);
 
-        Cell accommodationTableContent = new Cell().setBorder(Border.NO_BORDER);
-        Table accommodationContentTable = new Table(new float[]{250, 250, 250});
+
+        Cell transferTableContent = new Cell().setBorder(Border.NO_BORDER);
+        Table transferContentTable = new Table(new float[]{187.5f, 187.5f, 187.5f, 187.5f});
 
         // Add headers
-        accommodationContentTable.addCell(new Cell().add("Night Number").setBold().setFontSize(14).setBackgroundColor(Color.GRAY));
-        accommodationContentTable.addCell(new Cell().add("Accommodation Name").setBold().setFontSize(14).setBackgroundColor(Color.GRAY));
-        accommodationContentTable.addCell(new Cell().add("Room Description").setBold().setFontSize(14).setBackgroundColor(Color.GRAY));
-
+        addHeaders(transferContentTable, List.of("Route", "Trip Type", "AC", "Description"));
         // Add dynamic rows
-        availableAccommodationPackageDataList.forEach(availableAccommodationPackageData -> {
-            accommodationContentTable.addCell(new Cell().add(availableAccommodationPackageData.getNightNumber().toString()));
-            accommodationContentTable.addCell(new Cell().add(availableAccommodationPackageData.getTourPackageAccommodationName()));
-            accommodationContentTable.addCell(new Cell().add(availableAccommodationPackageData.getRoomDescription()));
+        availableTransportationPackageDataList.forEach(availableTransportationPackageData-> {
+            transferContentTable.addCell(new Cell().add(availableTransportationPackageData.getTransferRoute()));
+            transferContentTable.addCell(new Cell().add(availableTransportationPackageData.getTripType().getDisplayName()));
+            transferContentTable.addCell(new Cell().add(availableTransportationPackageData.getIsAc() ? "YES" : "NO"));
+            transferContentTable.addCell(new Cell().add(availableTransportationPackageData.toDescription()));
         });
 
-        accommodationTableContent.add(accommodationContentTable);
-        accommodationTable.addCell(accommodationTableContent);
+        transferTableContent.add(transferContentTable);
+        transferTable.addCell(transferTableContent);
 
-        return accommodationTable;
+        return transferTable;
     }
 
     private Table getGuideTable(float[] columnWidths, List<AvailableAccommodationPackageData> availableAccommodationPackageDataList) {
